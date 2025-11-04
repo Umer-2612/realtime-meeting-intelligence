@@ -1,0 +1,31 @@
+{
+  "version": 2,
+  "dgSpecHash": "uaC0gmS6JKKMhjleDgHE2CWKq4X4voEUJQL5Ot/f2EIFngJvl1A8P6dTSpSFR1VE+Og5zw7ts3aezZU/hT2qiA==",
+  "success": true,
+  "projectFilePath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj",
+  "expectedPackageFiles": [
+    "/Users/umer/.nuget/packages/microsoft.codeanalysis.fxcopanalyzers/2.9.12/microsoft.codeanalysis.fxcopanalyzers.2.9.12.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.codeanalysis.versioncheckanalyzer/2.9.12/microsoft.codeanalysis.versioncheckanalyzer.2.9.12.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.codequality.analyzers/2.9.12/microsoft.codequality.analyzers.2.9.12.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.csharp/4.7.0/microsoft.csharp.4.7.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.netcore.analyzers/2.9.12/microsoft.netcore.analyzers.2.9.12.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.netcore.platforms/1.1.0/microsoft.netcore.platforms.1.1.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.netframework.analyzers/2.9.12/microsoft.netframework.analyzers.2.9.12.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.psi.audio/0.19.100.1-beta/microsoft.psi.audio.0.19.100.1-beta.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.psi.data/0.19.100.1-beta/microsoft.psi.data.0.19.100.1-beta.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.psi.imaging/0.18.72.1-beta/microsoft.psi.imaging.0.18.72.1-beta.nupkg.sha512",
+    "/Users/umer/.nuget/packages/microsoft.psi.runtime/0.19.100.1-beta/microsoft.psi.runtime.0.19.100.1-beta.nupkg.sha512",
+    "/Users/umer/.nuget/packages/netstandard.library/2.0.3/netstandard.library.2.0.3.nupkg.sha512",
+    "/Users/umer/.nuget/packages/newtonsoft.json/13.0.2/newtonsoft.json.13.0.2.nupkg.sha512",
+    "/Users/umer/.nuget/packages/stylecop.analyzers/1.1.118/stylecop.analyzers.1.1.118.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.buffers/4.4.0/system.buffers.4.4.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.collections.immutable/1.7.0/system.collections.immutable.1.7.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.drawing.common/4.7.2/system.drawing.common.4.7.2.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.memory/4.5.3/system.memory.4.5.3.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.numerics.vectors/4.5.0/system.numerics.vectors.4.5.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.reflection.emit.ilgeneration/4.7.0/system.reflection.emit.ilgeneration.4.7.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.reflection.emit.lightweight/4.7.0/system.reflection.emit.lightweight.4.7.0.nupkg.sha512",
+    "/Users/umer/.nuget/packages/system.runtime.compilerservices.unsafe/4.5.2/system.runtime.compilerservices.unsafe.4.5.2.nupkg.sha512"
+  ],
+  "logs": []
+}

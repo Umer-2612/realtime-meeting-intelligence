@@ -1,0 +1,51 @@
+# Build artifacts
+bin/
+obj/
+out/
+artifacts/
+
+# IDE specific directories
+.vs/
+.idea/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Package management
+packages/
+.nuget/packages/
+*.nuget.props
+*.nuget.targets
+project.lock.json
+project.fragment.lock.json
+*.lock.json
+
+# Logs and diagnostics
+*.log
+logs/
+
+# Coverage reports
+coverage/
+*.coverage
+*.coveragexml
+
+# Publish output
+publish/
+
+# Local configuration overrides
+appsettings.Development.json
+secrets.json
+
+# Temporary and cache files
+cache/
+*.tmp
+*.temp
+*.swp
+*.swo
+*.bak
+~$*
+
+# OS specific files
+.DS_Store
+Thumbs.db
