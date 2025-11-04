@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "2HhF/tIujaNsEgLZGt549IJ/URjL6Ru+S0xdZtETVur5Mn7IddgbX9Z5hQWmUeQwN1oyP9W1bnzLgRCdqmiw3g==",
+  "dgSpecHash": "jN+07rP0TaNPMR2TZjVna7fVC0CGnQyuatbhOt7pMT/f1o5pWJaCDrneyGQlXS7DQ9YWCGxb8WLPZhDbVXVRvA==",
   "success": true,
-  "projectFilePath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBotTester/TeamsBotTester.csproj",
+  "projectFilePath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBotTester/TeamsBotTester.csproj",
   "expectedPackageFiles": [
     "/Users/umer/.nuget/packages/atksharp/3.24.24.95/atksharp.3.24.24.95.nupkg.sha512",
     "/Users/umer/.nuget/packages/cairosharp/3.24.24.95/cairosharp.3.24.24.95.nupkg.sha512",

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "bPQrG8lO0IyFKjvao+c+kiwTWJHw+ERrxmq68can5VLgBu1suImldQoeOnl5ht7/+7++pohB2/WtI3XN4iZrzw==",
+  "dgSpecHash": "BJV8RXY8DL94V5UH0D9Gj7aAq20m+9irXcg0wzsOUau1QQ5vCw3c+DltErAylrGYHmInkkXzEhhMRS16AaFSUA==",
   "success": true,
-  "projectFilePath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBotSample/TeamsBotSample.csproj",
+  "projectFilePath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBotSample/TeamsBotSample.csproj",
   "expectedPackageFiles": [
     "/Users/umer/.nuget/packages/microsoft.codeanalysis.fxcopanalyzers/2.9.12/microsoft.codeanalysis.fxcopanalyzers.2.9.12.nupkg.sha512",
     "/Users/umer/.nuget/packages/microsoft.codeanalysis.versioncheckanalyzer/2.9.12/microsoft.codeanalysis.versioncheckanalyzer.2.9.12.nupkg.sha512",

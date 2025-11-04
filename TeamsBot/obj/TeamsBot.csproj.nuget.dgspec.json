@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj": {}
+    "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/TeamsBot.csproj": {}
   },
   "projects": {
-    "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj": {
+    "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/TeamsBot.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj",
+        "projectUniqueName": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/TeamsBot.csproj",
         "projectName": "Microsoft.Psi.TeamsBot",
-        "projectPath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj",
+        "projectPath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/TeamsBot.csproj",
         "packagesPath": "/Users/umer/.nuget/packages/",
-        "outputPath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/obj/",
+        "outputPath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "/Users/umer/.nuget/NuGet/NuGet.Config"

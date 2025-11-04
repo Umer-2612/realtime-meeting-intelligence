@@ -1275,11 +1275,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBotSample/TeamsBotSample.csproj",
+      "projectUniqueName": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBotSample/TeamsBotSample.csproj",
       "projectName": "Microsoft.Psi.TeamsBot.Sample",
-      "projectPath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBotSample/TeamsBotSample.csproj",
+      "projectPath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBotSample/TeamsBotSample.csproj",
       "packagesPath": "/Users/umer/.nuget/packages/",
-      "outputPath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBotSample/obj/",
+      "outputPath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBotSample/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/umer/.nuget/NuGet/NuGet.Config"
@@ -1294,8 +1294,8 @@
         "netstandard2.0": {
           "targetAlias": "netstandard2.0",
           "projectReferences": {
-            "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj": {
-              "projectPath": "/Users/umer/Desktop/Umer/Github/Microsoft Teams Meeting Bot/TeamsBot/TeamsBot.csproj"
+            "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/TeamsBot.csproj": {
+              "projectPath": "/Users/umer/Desktop/Umer/Github/realtime-meeting-intelligence/TeamsBot/TeamsBot.csproj"
             }
           }
         }
