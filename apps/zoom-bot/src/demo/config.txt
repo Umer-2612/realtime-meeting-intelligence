@@ -1,0 +1,9 @@
+
+meetingNumber: "85826677220"
+token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhcHBLZXkiOiJVeURkaWxBT1NTNnFhU3RBTnJrNDhBIiwiaWF0IjoxNzQ2NzI1MjI1LCJleHAiOjE3NDY3Mjg4MjUsInRva2VuRXhwIjoxNzQ2ODExNjI1fQ.HS8c5GbnZqnAB0qmFGI4w2Hf3vLXd0_B81SBC1P0kqk"
+meetingPassword: "rK99WH"
+recordingToken: "lrhqfjbgy"
+enableVideoRawDataCapture: "true"
+enableAudioRawDataCapture: "true"
+enableVideoRawDataPublishing: "true"
+enableAudioRawDataPublishing: "true"

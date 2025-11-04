@@ -1,0 +1,66 @@
+# Build artifacts
+bin/
+obj/
+packages/
+artifacts/
+TestResults/
+*.TestResult.xml
+*.codecoverage
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+*.vcxproj.user
+*.vscode.sln
+
+# Rider / JetBrains
+.idea/
+.fleet/
+
+# Python
+__pycache__/
+.python-version
+.ruff_cache/
+.mypy_cache/
+*.pyc
+
+# CMake
+CMakeFiles/
+CMakeCache.txt
+cmake-build-*/
+build/
+CMakeUserPresets.json
+Makefile
+
+# Zoom SDK demo outputs
+apps/zoom-bot/src/demo/bin/
+apps/zoom-bot/src/demo/lib/
+apps/zoom-bot/src/demo/qt_libs/
+
+# OS files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Logs
+*.log
+logs/
+
+# Tooling
+.env
+.vscode/
+*.code-workspace
+
+# NUGet restore artifacts
+.nuget/
+*.nupkg
+*.tgz
+
+# Dotnet intermediate (fallback if nested bin/obj land outside top-level)
+**/bin/
+**/obj/
+
+# Misc editor swap files
+*.swp
+*.swo

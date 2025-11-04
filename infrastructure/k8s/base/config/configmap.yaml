@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: realtime-meeting-config
+  namespace: realtime-meeting
+  labels:
+    app.kubernetes.io/name: realtime-meeting
+    app.kubernetes.io/part-of: realtime-platform
+data:
+  TEAMS_BOT_BASE_URL: "https://teams-bot.example.com"
+  ZOOM_BOT_BASE_URL: "https://zoom-bot.example.com"

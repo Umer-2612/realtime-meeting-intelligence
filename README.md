@@ -1,112 +1,109 @@
-# Microsoft Teams Meeting Bot
+# Realtime Meeting Monorepo
 
-> Modernized fork maintained by Umer — replaces the legacy public sample documentation and reflects the current project shape.
+![High level architecture](architecture.png)
 
-## Overview
+This repository packages a cross-platform meeting intelligence stack that spans:
 
-The Microsoft Teams Meeting Bot is a .NET solution that joins Teams meetings as a participant, processes live audio/video streams with [Microsoft Psi](https://github.com/microsoft/psi), and can publish bot-generated media back into the meeting. The codebase is organized for rapid experimentation with real-time audio‑visual intelligence and includes tooling for offline replay and diagnostics.
+- **Microsoft Teams meeting bot** running on Windows nodes (.NET Framework).
+- **Zoom meeting automation** compiled from the Zoom Meeting SDK (C++).
+- **Streaming analytics services** that handle real-time audio and video enrichment.
+- **Shared infrastructure** deployed to AWS EKS with coordinated Windows and Linux workloads.
 
-Core scenarios include:
+The repo is structured to support a Kubernetes-first deployment while keeping local development ergonomic.
 
-- Joining Teams meetings programmatically and maintaining call state.
-- Consuming participant audio, video, and screen-share feeds for downstream analysis.
-- Producing bot-driven audio/video/screen-share output (for example, engagement visualizations).
-- Persisting media streams to Psi stores for offline inspection in Psi Studio.
+## Solution Topology
 
-## Solution Structure
+![Domain model](app_services_domain.png)
 
-| Project          | Description                                                                                                      |
-| ---------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `PsiBot`         | ASP.NET Core service that hosts the Teams calling bot and wires Psi pipelines into the Graph Communications SDK. |
-| `TeamsBot`       | Contracts for pluggable Psi bot components (for example, `ITeamsBot`).                                           |
-| `TeamsBotSample` | Sample Psi visualizations such as the engagement “ball bot” and thumbnail scaling bot.                           |
-| `TeamsBotTester` | GTK-based desktop harness for replaying recorded meetings against a bot implementation offline.                  |
+At a glance:
 
-Supporting assets in `/architecture.png`, `/pipeline.png`, and `/local_dev.png` visualize the end-to-end topology.
+- The **Teams bot** uses `TeamsCallLifecycleService`, `TeamsCallSessionCoordinator`, and `TeamsMediaStreamRouter` to manage call lifetimes, participant media subscriptions, and PSI pipelines.
+- The **Zoom bot** centres on `MeetingSdkDemo`, refreshed to use `ZoomSdkRenderer`, `ZoomSdkAudioRawData`, `ZoomSdkVideoSource`, and `ZoomSdkVirtualAudioMicEvent` for raw media capture/publish workflows.
+- The **stream processor** (Python) consumes fan-out data for analytics and feeds back decisions via REST/webhook surfaces.
 
-## Prerequisites
+## Repository Layout
 
-- .NET SDK 6.0 or later
-- Visual Studio 2022 or Visual Studio Code with C# Dev Kit (Windows) / VS Code + OmniSharp (macOS/Linux)
-- An Azure AD app registration with Microsoft Graph Calling permissions:
-  - `Calls.AccessMedia.All`
-  - `Calls.Initiate.All`
-  - `Calls.JoinGroupCall.All`
-  - `Calls.JoinGroupCallAsGuest.All`
-- A publicly reachable HTTPS endpoint for call control callbacks. During development you can use [ngrok](https://ngrok.com/) or Azure App Service.
-- TLS certificate for the public endpoint (self-signed is acceptable for local dev).
+```
+apps/
+  teams-bot/         # Windows-hosted .NET bot (Teams Graph SDK + Microsoft.Psi)
+  zoom-bot/          # C++ Zoom Meeting SDK demo with raw media hooks
+  common/            # Reserved for future shared assets/schemas
+services/
+  stream-processor/  # Python-based analytics workers
+infrastructure/
+  k8s/               # Base and overlay manifests for AWS EKS
+scripts/             # CI/CD and local helper scripts
+docs/                # Reference docs, run-books, and ADRs
+```
 
-## Quick Start
+## Developer Workflow
 
-1. **Clone & Restore**
+![Local development workflow](local_dev.png)
 
+### Teams Bot (Windows)
+
+1. Open `apps/teams-bot/PsiBot.sln` in Visual Studio 2022.
+2. Restore NuGet packages and ensure the `TeamsCallLifecycleService` singleton initializes at startup (startup wiring already configured in `Startup.cs`).
+3. Use ngrok or Azure Relay to expose the local bot endpoint when testing incoming calls (the tunnelling diagram below applies to both bots).
+
+Key runtime components:
+
+- `TeamsCallLifecycleService` – orchestrates call creation, teardown, and DI exposure.
+- `TeamsCallSessionCoordinator` – per-call coordinator managing heartbeats and participant video subscriptions.
+- `TeamsMediaStreamRouter` / `ParticipantMediaSource` – bridge Microsoft Graph media sockets with Microsoft.Psi pipelines.
+
+### Zoom Bot (Linux/Windows)
+
+![Secure tunnelling options](ngrok.png)
+
+1. Install Zoom Meeting SDK dependencies and CMake toolchain.
+2. Configure `apps/zoom-bot/src/demo/config.txt` using the new keys:
+   - `meetingNumber`, `meetingPassword`, `token`
+   - `enableVideoRawDataCapture`, `enableAudioRawDataCapture`
+   - `enableVideoRawDataPublishing`, `enableAudioRawDataPublishing`
+3. Build the demo:
    ```bash
-   git clone https://github.com/<your-org>/microsoft-teams-meeting-bot.git
-   cd microsoft-teams-meeting-bot
-   dotnet restore
+   cd apps/zoom-bot/src/demo
+   mkdir -p build && cd build
+   cmake ..
+   cmake --build .
    ```
+4. Launch `MeetingSdkDemo` and monitor stdout for raw media subscription or publishing events.
 
-2. **Configure `appsettings.Development.json`** (create alongside `PsiBot.Service/appsettings.json`):
+### Streaming Services
 
-   ```json
-   {
-     "BotConfiguration": {
-       "BotName": "MyTeamsBot",
-       "AadAppId": "<CLIENT_ID>",
-       "AadAppSecret": "<CLIENT_SECRET>",
-       "ServiceCname": "{ngrok-subdomain}.ngrok.io",
-       "MediaServiceFQDN": "local.mydomain.com",
-       "ServiceDnsName": "",
-       "CertificateThumbprint": "<LOCAL_CERT_THUMBPRINT>",
-       "InstancePublicPort": 9441,
-       "CallSignalingPort": 9441,
-       "InstanceInternalPort": 8445,
-       "PlaceCallEndpointUrl": "https://graph.microsoft.com/v1.0",
-       "PsiStoreDirectory": "C:/PsiStores" // optional
-     }
-   }
-   ```
+Refer to `services/stream-processor/README.md` for Python environment setup and run commands. The processor expects JSON descriptors produced by the Teams/Zoom bots when fan-out is enabled.
 
-   - `ServiceCname` should match the public HTTPS endpoint (ngrok domain during development).
-   - `MediaServiceFQDN` must resolve to the TCP endpoint that exposes your media port (for ngrok TCP forwarding, map a subdomain via your DNS provider).
-   - `CertificateThumbprint` references the X509 certificate in the LocalMachine/My store used by Kestrel.
+## Build & Deployment
 
-3. **Run the Bot Service**
+![CI/CD pipeline](pipeline.png)
 
+1. **Container builds**
+   - `apps/teams-bot/docker/Dockerfile.windows` (Windows container, requires Windows builder)
+   - `apps/zoom-bot/docker/Dockerfile` (Ubuntu-based Zoom SDK build)
+   - `services/stream-processor/Dockerfile`
+2. **Push images** to Amazon ECR (or your registry of choice).
+3. **Deploy** via Kustomize overlays:
    ```bash
-   dotnet run --project PsiBot/PsiBot.Service
+   kubectl apply -k infrastructure/k8s/overlays/dev
    ```
+4. **Observe** call routing with CloudWatch logs or Application Insights (depending on your telemetry wiring).
 
-4. **Manage Calls**
-   Visit `https://{ServiceCname}/manage` to use the built-in management page for joining/leaving meetings and inspecting active call logs.
+## Configuration Highlights
 
-5. **Join a Meeting**
-   Paste a Teams meeting join URL on the management page. The bot will join as the configured application identity (or as a guest if a display name is supplied in the payload).
+- Teams bot app settings (under `apps/teams-bot/src/PsiBot/PsiBot.Service/appsettings.json`) should provide AAD credentials, media platform settings, and PSI export directories. The service now relies on the renamed classes noted above.
+- Zoom config uses the new camelCase flags (see `config.txt` example) to enable/disable raw capture and publishing flows.
+- `.gitignore` has been expanded to cover nested `bin/`, `obj/`, TestResults, and Zoom SDK build artefacts—run `git status` before commits to ensure only source changes are staged.
 
-## Development Workflow
+## CI/CD Guidance
 
-- **Hot Reload / Watch**: `dotnet watch --project PsiBot/PsiBot.Service` for faster iterations during backend changes.
-- **Local Certificates**: Use the PowerShell `New-SelfSignedCertificate` cmdlet to mint development certs and export them for Kestrel. Update `BotConfiguration` with the thumbprint.
-- **Psi Studio**: Open generated Psi stores (`*.psi`) in Psi Studio to inspect pipelines, audio, and video offline.
-- **Testing Custom Bots**: Implement `ITeamsBot` in a new project or reuse `TeamsBotSample` as a template. Wire it into `CallHandler.CreateTeamsBot` or exercise it via `TeamsBotTester` for offline debugging.
+- Use split runners (Windows + Linux) in GitHub Actions or AWS CodeBuild to build respective images.
+- Leverage scripts under `scripts/` for repeatable packaging and deployment tasks.
+- Incorporate automated tests for each bot and add end-to-end smoke tests against a staging EKS cluster.
 
-## Troubleshooting
+## Next Steps
 
-| Symptom                     | Resolution                                                                                                                                                                    |
-| --------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| Bot immediately disconnects | Ensure the Azure AD application has admin consent for the calling permissions and that `AadAppSecret` is valid.                                                               |
-| Media playback is blank     | Confirm that the bot has at least one available video socket (`BotConstants.NumberOfMultiviewSockets`) and that the meeting participant is not in the lobby.                  |
-| TLS startup failure         | Verify the certificate exists in LocalMachine\My, has a private key, and that the process has permission to read it. Update `CertificateThumbprint` if the cert was reissued. |
-| Ngrok traffic blocked       | Use ngrok’s TCP forwarding for media (port 8445+) and HTTPS forwarding for call signaling. Restart ngrok when the public URL changes and update `ServiceCname`.               |
-
-## Roadmap Ideas
-
-- Pluggable analytics (for example, sentiment, transcription, speaker attribution).
-- Containerized deployment for Azure Kubernetes Service.
-- Continuous Integration setup with automated smoke tests for call control endpoints.
-
-## Acknowledgements
-
-This project originated from Microsoft’s public \\psi Teams bot sample. The implementation retains key architectural components (Graph Communications SDK integration, Psi pipelines, engagement visualizations) while modernizing documentation and configuration to reflect current ownership.
-
-Contributions and issue reports are welcome — open a pull request or file a GitHub issue with details about desired enhancements or bug reports.
+- Populate `apps/common` with shared contracts, schemas, and reusable processing primitives.
+- Add managed secrets integration (AWS Secrets Manager, Parameter Store, or HashiCorp Vault).
+- Extend analytics pipelines with additional PSI components and ML models.
+- Formalise monitoring dashboards for both Teams and Zoom call flows.

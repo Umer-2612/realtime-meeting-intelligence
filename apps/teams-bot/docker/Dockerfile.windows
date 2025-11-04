@@ -1,0 +1,22 @@
+# escape=`
+
+# Build image (requires Windows host)
+FROM mcr.microsoft.com/dotnet/framework/sdk:4.8-windowsservercore-ltsc2019 AS build
+WORKDIR C:\src
+
+COPY PsiBot.sln .
+COPY src src
+
+RUN nuget restore PsiBot.sln
+RUN msbuild src\PsiBot\PsiBot.Service\PsiBot.Service.csproj ^
+    /p:Configuration=Release ^
+    /p:Platform="Any CPU" ^
+    /p:OutputPath=C:\out
+
+# Runtime image
+FROM mcr.microsoft.com/dotnet/framework/aspnet:4.8-windowsservercore-ltsc2019
+WORKDIR C:\inetpub\wwwroot
+
+COPY --from=build C:\out\ .\
+
+EXPOSE 80

@@ -1,0 +1,59 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: zoom-bot
+  namespace: realtime-meeting
+  labels:
+    app.kubernetes.io/name: zoom-bot
+    app.kubernetes.io/part-of: realtime-platform
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: zoom-bot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: zoom-bot
+        app.kubernetes.io/part-of: realtime-platform
+    spec:
+      nodeSelector:
+        kubernetes.io/os: linux
+      containers:
+        - name: zoom-bot
+          image: 000000000000.dkr.ecr.us-east-1.amazonaws.com/zoom-bot:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3000
+          envFrom:
+            - configMapRef:
+                name: realtime-meeting-config
+            - secretRef:
+                name: realtime-meeting-secrets
+          readinessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 10
+          livenessProbe:
+            tcpSocket:
+              port: 3000
+            initialDelaySeconds: 40
+            periodSeconds: 20
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: zoom-bot
+  namespace: realtime-meeting
+  labels:
+    app.kubernetes.io/name: zoom-bot
+    app.kubernetes.io/part-of: realtime-platform
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: zoom-bot
+  ports:
+    - name: control
+      port: 3000
+      targetPort: 3000
