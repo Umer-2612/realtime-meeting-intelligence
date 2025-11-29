@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  # Zoom Bot - Linux Container
+  zoom-bot:
+    build:
+      context: ./apps/zoom-bot
+      dockerfile: docker/Dockerfile
+    container_name: zoom-bot
+    environment:
+      - LD_LIBRARY_PATH=/opt/zoom-bot/bin
+    volumes:
+      # Mount config file for easy updates
+      - ./apps/zoom-bot/src/demo/config.txt:/opt/zoom-bot/bin/config.txt:ro
+    networks:
+      - meeting-network
+    restart: unless-stopped
+    # Uncomment for interactive mode
+    # stdin_open: true
+    # tty: true
+
+  # Stream Processor - Linux Container
+  stream-processor:
+    build:
+      context: ./services/stream-processor
+      dockerfile: Dockerfile
+    container_name: stream-processor
+    environment:
+      - PYTHONUNBUFFERED=1
+    ports:
+      - "8000:8000"
+    networks:
+      - meeting-network
+    restart: unless-stopped
+    depends_on:
+      - zoom-bot
+
+  # Teams Bot - Windows Container
+  # NOTE: This requires a Windows Docker host
+  # Uncomment the section below if running on Windows
+  
+  # teams-bot:
+  #   build:
+  #     context: ./apps/teams-bot
+  #     dockerfile: docker/Dockerfile.windows
+  #   container_name: teams-bot
+  #   environment:
+  #     - ASPNETCORE_ENVIRONMENT=Development
+  #   ports:
+  #     - "3978:3978"
+  #   networks:
+  #     - meeting-network
+  #   restart: unless-stopped
+
+networks:
+  meeting-network:
+    driver: bridge
+
+# Optional: Add volumes for persistent data
+# volumes:
+#   meeting-data:
